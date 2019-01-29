@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -43,10 +44,11 @@ public class SignUpActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                   if (task.isSuccessful()) {
                     FirebaseUser user = mAuth.getCurrentUser();
-                    Toast.makeText(SignUpActivity.this, "Sign in success",
-                        Toast.LENGTH_LONG).show();
+                    Log.d("Sign in", "Sign in success");
+
                     updateUI(user);
                   } else {
+                    Log.d("Sign in", "Sign in fail");
                     Toast.makeText(SignUpActivity.this, "Cannot create user account",
                         Toast.LENGTH_LONG).show();
                   }
