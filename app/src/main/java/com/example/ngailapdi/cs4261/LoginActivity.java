@@ -111,8 +111,6 @@ public class LoginActivity extends AppCompatActivity {
         if (user == null) {
             return;
         }
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
     }
 
 
