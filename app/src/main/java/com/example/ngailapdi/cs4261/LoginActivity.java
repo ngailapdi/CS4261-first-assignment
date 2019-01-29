@@ -65,6 +65,8 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.makeText(LoginActivity.this, "Sign in success",
                                         Toast.LENGTH_LONG).show();
                                     updateUI(user);
+                                    Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
+                                    startActivity(mainActivity);
                                 } else {
                                     // Sign-in fail
                                     Toast.makeText(LoginActivity.this,
@@ -109,8 +111,6 @@ public class LoginActivity extends AppCompatActivity {
         if (user == null) {
             return;
         }
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
     }
 
 
