@@ -34,6 +34,7 @@
             <!--</intent-filter>-->
         </activity>
         <activity android:name=".SignUpActivity"/>
+        <activity android:name=".AddActivity"/>
     </application>
 
 </manifest>
