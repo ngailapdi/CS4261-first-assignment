@@ -3,6 +3,7 @@ package com.example.ngailapdi.cs4261;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,24 +32,34 @@ public class AddActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final DatabaseReference teamFire = FirebaseDatabase.getInstance().getReference("team/" + user.getUid() + "/");
-                addTeam(teamFire);
-                Toast.makeText(AddActivity.this,"Add Successful",Toast.LENGTH_LONG).show();
-                Intent backIntent = new Intent(AddActivity.this, MainActivity.class);
-                startActivityForResult(backIntent, 1);
+                if (addTeam(teamFire) == Boolean.TRUE) {
+                    Intent backIntent = new Intent(AddActivity.this, MainActivity.class);
+                    startActivityForResult(backIntent, 1);
+                }
             }
             });
 
 
 
 }
-    public void addTeam(DatabaseReference teamFire) {
+    public Boolean addTeam(DatabaseReference teamFire) {
         String teamName = name.getText().toString();
         String teamDes = description.getText().toString();
         String id = teamFire.push().getKey();
-        Team newTeam = new Team(teamName,teamDes,id);
-        teamFire.child(id).setValue(newTeam);
-        name.setText("Name");
-        description.setText("Description");
+
+        if((TextUtils.isEmpty(name.getText()))|| (TextUtils.isEmpty(description.getText())))
+        {
+            Toast.makeText(AddActivity.this,"Please enter a valid team name and description",Toast.LENGTH_LONG).show();
+            return Boolean.FALSE;
+        }
+        else{
+            Team newTeam = new Team(teamName, teamDes, id);
+            teamFire.child(id).setValue(newTeam);
+            name.setText("");
+            description.setText("");
+            Toast.makeText(AddActivity.this,"Add Successful",Toast.LENGTH_LONG).show();
+            return Boolean.TRUE;
+        }
     }
 
 }
