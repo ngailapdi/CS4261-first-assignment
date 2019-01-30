@@ -8,12 +8,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class AddActivity extends AppCompatActivity {
     private EditText name;
     private EditText description;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,12 +25,13 @@ public class AddActivity extends AppCompatActivity {
         name = findViewById(R.id.nameInput);
         description = findViewById(R.id.desInput);
         Button add = findViewById(R.id.addButton);
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DatabaseReference teamfire = FirebaseDatabase.getInstance().getReference("team");
-                addTeam(teamfire);
+                final DatabaseReference teamFire = FirebaseDatabase.getInstance().getReference("team/" + user.getUid() + "/");
+                addTeam(teamFire);
                 Toast.makeText(AddActivity.this,"Add Successful",Toast.LENGTH_LONG).show();
                 Intent backIntent = new Intent(AddActivity.this, MainActivity.class);
                 startActivityForResult(backIntent, 1);
@@ -37,15 +41,14 @@ public class AddActivity extends AppCompatActivity {
 
 
 }
-public void addTeam(DatabaseReference teamfire)
-{
-    String teamName = name.getText().toString();
-    String teamDes = description.getText().toString();
-    String id = teamfire.push().getKey();
-    Team newTeam = new Team(teamName,teamDes,id);
-    teamfire.child(id).setValue(newTeam);
-    name.setText("Name");
-    description.setText("Description");
-}
+    public void addTeam(DatabaseReference teamFire) {
+        String teamName = name.getText().toString();
+        String teamDes = description.getText().toString();
+        String id = teamFire.push().getKey();
+        Team newTeam = new Team(teamName,teamDes,id);
+        teamFire.child(id).setValue(newTeam);
+        name.setText("Name");
+        description.setText("Description");
+    }
 
 }
