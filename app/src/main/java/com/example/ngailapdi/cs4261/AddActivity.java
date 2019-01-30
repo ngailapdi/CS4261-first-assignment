@@ -22,7 +22,6 @@ public class AddActivity extends AppCompatActivity {
         name = findViewById(R.id.nameInput);
         description = findViewById(R.id.desInput);
         Button add = findViewById(R.id.addButton);
-        Button back =findViewById(R.id.backButton);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,16 +29,12 @@ public class AddActivity extends AppCompatActivity {
                 final DatabaseReference teamfire = FirebaseDatabase.getInstance().getReference("team");
                 addTeam(teamfire);
                 Toast.makeText(AddActivity.this,"Add Successful",Toast.LENGTH_LONG).show();
-            }
-            });
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 Intent backIntent = new Intent(AddActivity.this, MainActivity.class);
                 startActivityForResult(backIntent, 1);
             }
-        });
+            });
+
+
 
 }
 public void addTeam(DatabaseReference teamfire)
