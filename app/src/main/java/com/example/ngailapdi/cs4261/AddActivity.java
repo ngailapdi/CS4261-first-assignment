@@ -12,6 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class AddActivity extends AppCompatActivity {
     private EditText name;
     private EditText description;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,28 +21,25 @@ public class AddActivity extends AppCompatActivity {
         description = findViewById(R.id.desInput);
         Button add = findViewById(R.id.addButton);
 
-
-
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                FirebaseDatabase team =  FirebaseDatabase.getInstance();
-                DatabaseReference myRef = team.getReference("team");
-                addTeam(myRef);
+                final DatabaseReference teamfire = FirebaseDatabase.getInstance().getReference("team");
+                addTeam(teamfire);
             }
 
 });
 
 }
-public void addTeam(DatabaseReference myRef)
+public void addTeam(DatabaseReference teamfire)
 {
     String teamName = name.getText().toString();
     String teamDes = description.getText().toString();
-    String id = myRef.push().getKey();
+    String id = teamfire.push().getKey();
     Team newTeam = new Team(teamName,teamDes,id);
-    myRef.child(id).setValue(newTeam);
-
-
+    teamfire.child(id).setValue(newTeam);
+    name.setText(" ");
+    description.setText(" ");
 }
+
 }
