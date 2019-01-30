@@ -13,4 +13,6 @@
         completions."
     </string>
     <string name="add_button">+</string>
+    <string name="team_name">Team Name:</string>
+    <string name="team_des">Team Description:</string>
 </resources>
